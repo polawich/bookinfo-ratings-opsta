@@ -1,0 +1,1 @@
+# bookinfo-ratings-opsta
