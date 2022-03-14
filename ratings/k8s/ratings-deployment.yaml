@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bookinfo-dev-ratings
+  namespace: polalab1
+  labels:
+    app: bookinfo-dev-ratings
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bookinfo-dev-ratings
+  template:
+    metadata:
+      labels: 
+        app: bookinfo-dev-ratings
+    spec:
+      containers:
+      - name: bookinfo-dev-ratings #container1
+        image: ghcr.io/polawich/bookinfo-ratings-opsta:dev
+        imagePullPolicy: Always #ให้พิม docker pull อยู่เสมอให้เป็น ver ล่าสุดจากที่เรา push ขึ้นไปบน github registry
+        ports:
+        - containerPort: 8080
+          name: web-port
+          protocol: TCP
+        livenessProbe: # healthcheck1 if app it's work have send a traffic the cluster
+          httpGet:
+            path: /health
+            port: 8080
+            scheme: HTTP
+        readinessProbe: # healthcheck2 if app it's work have send a traffic the cluster
+          httpGet:
+            path: /health
+            port: 8080
+            scheme: HTTP
+        env:
+        - name: SERVICE_VERSION
+          value: v2
+        - name: MONGO_DB_URL
+          value: mongodb://bookinfo-dev-ratings-mongodb:27017/ratings
+        - name: MONGO_DB_USERNAME
+          value: ratings
+        - name: MONGO_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: bookinfo-dev-ratings-mongodb-secret
+              key: mongodb-passwords
+      imagePullSecrets:
+      - name: registry-bookinfo

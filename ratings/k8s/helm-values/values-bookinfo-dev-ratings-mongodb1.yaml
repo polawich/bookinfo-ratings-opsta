@@ -1,0 +1,10 @@
+image:
+  tag: 4.4.12
+auth:
+  enabled: true
+  username: ratings
+  database: ratings
+  existingSecret: bookinfo-dev-ratings-mongodb-secret1
+persistence:
+  enabled: false
+initdbScriptsConfigMap: bookinfo-dev-ratings-mongodb-initdb1

@@ -1,0 +1,18 @@
+image:
+  tag: 4.4.12
+auth:
+  enabled: true
+  usernames: [ratings]
+  passwords: [CHANGEME]
+  databases: [ratings]
+  existingSecret: "bookinfo-dev-ratings-mongodb-secret"
+persistence:
+  enabled: false
+initdbScriptsConfigMap: "bookinfo-dev-ratings-mongodb-initdb"
+extraEnvVars:
+  - name: USERNAME
+    value: ratings
+  - name: PASSWORD
+    value: CHANGEME
+  - name: DATABASE
+    value: ratings

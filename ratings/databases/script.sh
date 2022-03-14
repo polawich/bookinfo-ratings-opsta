@@ -1,5 +1,6 @@
 #!/bin/sh
 
 set -e
-mongoimport --host localhost --username $MONGODB_USERNAME --password $MONGODB_PASSWORD \
-  --db $MONGODB_DATABASE --collection ratings --drop --file /docker-entrypoint-initdb.d/ratings_data.json
+echo "start migration"
+mongoimport --host localhost --username ratings --password CHANGEME \
+  --db ratings --collection ratings --drop --file /docker-entrypoint-initdb.d/ratings_data.json
